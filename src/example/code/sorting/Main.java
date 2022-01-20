@@ -1,4 +1,5 @@
-package day01.p1713;
+package example.code.sorting;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
