@@ -6,9 +6,11 @@ import java.util.*;
 public class Main {
 
     static int N, S;
-    static long[] players;
-    static Map<Long, Integer> index = new HashMap<>();
+    static int[] players;
+    static int[] result;
+    static Map<Integer, Integer> index = new HashMap<>();
     static int[] indexedTree;
+    static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
 
@@ -20,15 +22,14 @@ public class Main {
 
         N = Integer.parseInt(st.nextToken());
 
-        players = new long[N];
+        players = new int[N];
+        result = new int[N];
         // 선수들이 달리는 순서들을 기록함
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            players[i] = Long.parseLong(st.nextToken());
-            index.put(players[i], i);
+            players[i] = Integer.parseInt(st.nextToken());
+            index.put(players[i], i + 1);
         }
-
-        System.out.println(Arrays.toString(players));
 
         // 인덱스 트리 구성
         S = 1;
@@ -39,30 +40,22 @@ public class Main {
 
 
         // query, update 구현 후 player리스트를 sorting 함
-
-
-        //TODO: 다시 구현 해야 함
-
-        System.out.println(Arrays.toString(players));
-
+        Arrays.sort(players);
 
         // indexed tree에 업데이트 해주고 앞에 얼마나 많은 사람이 있는지를 출력함
-        for (long player : players) {
-
-            int idx = index.get(player);
+        for (int i = N - 1; i >= 0 ; i--) {
+            int idx = index.get(players[i]);
+            int diff = query(1, S, 1, 1, idx - 1);
             update(1, S, 1, idx);
-            System.out.println(query(1, S, 1, 1, idx));
-            for (int i = S; i < 2 * S; i++) {
-                System.out.print(indexedTree[i] + " ");
-            }
-            System.out.println();
-
+            result[idx - 1] = diff + 1;
         }
 
+        for (int i = 0; i < N; i++) {
+            sb.append(result[i]);
+            sb.append("\n");
+        }
 
-
-
-
+        System.out.print(sb.toString());
 
     }
 
@@ -91,7 +84,7 @@ public class Main {
         // 범위 밖에 있는 경우
         if (leftQuery > right || rightQuery < left) {
             return 0;
-        } else if (left <= leftQuery && rightQuery <= right) {
+        } else if (leftQuery <= left && right <= rightQuery) {
             // 범위 안에 있는 경우
             return indexedTree[node];
         } else {
