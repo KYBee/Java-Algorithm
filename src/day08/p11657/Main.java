@@ -10,13 +10,12 @@ public class Main<i, fo> {
     static final int INF = Integer.MAX_VALUE;
     static int N, M;
     static Edge[] graphs;
-    static int[] map;
+    static long[] map;
 
     public static void main(String[] args) throws IOException {
 
-        System.setIn(new FileInputStream("src/day08/p11657/input1.txt"));
+        System.setIn(new FileInputStream("src/day08/p11657/input2.txt"));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         N = Integer.parseInt(st.nextToken());
@@ -24,9 +23,9 @@ public class Main<i, fo> {
 
         int A, B, C;
 
-        map = new int[N + 1];
+        map = new long[N + 1];
         graphs = new Edge[M + 1];
-        int[] newMap = new int[N + 1];
+        long[] newMap = new long[N + 1];
 
 
         for (int i = 1; i <= M; i++) {
@@ -46,37 +45,49 @@ public class Main<i, fo> {
         }
 
         // 가중치 넣기
-        for (int i = 0; i < M - 1; i++) {
+        for (int i = 1; i <= M - 1; i++) {
             for (int j = 1; j < graphs.length; j++) {
                 Edge currentEdge = graphs[j];
                 int from = currentEdge.A;
                 int to = currentEdge.B;
                 int weight = currentEdge.C;
 
-                map[to] = Math.min(map[to], map[from] + weight);
+                //INF 값이 정수라서 음의 가중치와 만나면 min 값이 의도치않게 계산될 수 있기 때문에
+                //INF 도 잘 계산해주어야 함
+                if (map[from] != INF) {
+                    map[to] = Math.min(map[to], map[from] + weight);
+                }
             }
         }
 
+
+        // 한 번 더 돌려서 negative cycle이 있는지 확인
         for (int i = 1; i < graphs.length; i++) {
             Edge currentEdge = graphs[i];
             int from = currentEdge.A;
             int to = currentEdge.B;
-            int weight = currentEdge.C;
+            long weight = currentEdge.C;
 
-            newMap[to] = Math.min(map[to], map[from] + weight);
+            if (map[from] != INF) {
+                newMap[to] = Math.min(map[to], map[from] + weight);
+            }
+
             if (newMap[to] != map[to]) {
                 System.out.println(-1);
                 return;
             }
         }
 
+        StringBuilder sb = new StringBuilder();
         for (int i = 2; i <= N; i++) {
             if (map[i] == INF) {
-                System.out.println(-1);
+                sb.append("-1\n");
             } else {
-                System.out.println(map[i]);
+                sb.append(map[i]).append("\n");
             }
         }
+
+        System.out.println(sb.toString());
     }
 
 }
