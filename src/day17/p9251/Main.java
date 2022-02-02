@@ -9,14 +9,9 @@ import java.io.*;
 
 public class Main {
 
-    static StringBuilder sb = new StringBuilder();
-    static int aLength;
-    static int bLength;
-    static String a;
-    static String b;
-    static char[] aArray;
-    static char[] bArray;
-    static List<Character> result = new LinkedList<>();
+    static int aLength, bLength;
+    static String a, b;
+    static char[] aArray, bArray;
 
     static int[][] dp;
 
