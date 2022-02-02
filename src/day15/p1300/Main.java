@@ -17,8 +17,25 @@ public class Main {
         st = new StringTokenizer(br.readLine());
         K = Integer.parseInt(st.nextToken());
 
+        long start = 1;
+        long end = K;
 
+        while (start < end) {
 
+            long mid = (start + end) / 2;
+            long count = 0;
 
+            for (int i = 1; i <= N; i++) {
+                count += Math.min(N, mid / i);
+            }
+
+            if (K <= count) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        System.out.println(start);
     }
 }
