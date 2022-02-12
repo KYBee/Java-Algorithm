@@ -81,10 +81,10 @@ public class Main {
             for (Edge next : map[current.to]) {
 
                 //일단 to 에 붙어있는 목적지들을 확인하고 목적지를 거쳐서 nextweight까지 가는 것이 현재 Path 보다 작으면
-                int cost = current.weight + next.weight;
+                int cost = path[current.to] + next.weight;
 
                 //수정
-                if (current.weight + next.weight < path[next.to]) {
+                if (path[next.to] > cost) {
                     path[next.to] = cost;
                     pq.add(new Edge(next.to,  cost));
                 }
