@@ -10,10 +10,10 @@ public class UpperBound {
 
             int mid = (start + end) / 2;
 
-            if (numList[mid] <= target) {
-                start = mid + 1;
-            } else {
+            if (target > numList[mid]) {
                 end = mid;
+            } else {
+                start = mid + 1;
             }
         }
 

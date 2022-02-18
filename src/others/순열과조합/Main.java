@@ -33,7 +33,7 @@ public class Main {
         System.out.println(permuResult);
         System.out.println(combiResult);
     }
-
+    
     public static void permutation(int[] arr, int[] output, boolean[] visited, int start, int n, int r) {
         if (start == r) {
             String str = "";
